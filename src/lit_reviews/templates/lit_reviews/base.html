@@ -9,11 +9,14 @@
 
     <nav>
         <h1>LITReview</h1>
-        <p>Flux</p>
-        <p>Posts</p>
-        <p>Abonnements</p>
-        <p>Se connecter</p>
+        <p><a href="{% url 'homepage' %}">Flux</a></p>
+        <p><a href="{% url 'posts' %}">Posts</a></p>
+        <p><a href="{% url 'subscriptions' %}">Abonnements</a></p>
+        <p><a href="{% url 'logout' %}">Se déconnecter</a></p>
     </nav>
+
+    {% block content %}
+    {% endblock %}
     
 </body>
 </html>

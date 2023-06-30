@@ -17,7 +17,9 @@
     </div>
     
     <div id="connection">
-        <h3>Connectez-vous</h3>
+        <h3>
+            <a href="{% url 'signup' %}">Connectez-vous</a>
+        </h3>
         <form>
             {%csrf_token%}
             <!-- {{ form.as_table }}-->
