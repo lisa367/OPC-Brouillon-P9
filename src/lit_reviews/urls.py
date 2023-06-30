@@ -18,21 +18,28 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 
-from settings import MEDIA_URL, MEDIA_ROOT, DEBUG
-from .views import index, signup, homepage, subscriptions, posts, login_view, logout_view
+from .settings import MEDIA_URL, MEDIA_ROOT, DEBUG
+from .views import (
+    index,
+    signup,
+    homepage,
+    subscriptions,
+    posts,
+    login_view,
+    logout_view,
+)
 
 urlpatterns = [
-	path('', index, name="index"),
-    path('signup', signup, name="signup"),
-	path('home/', homepage, name="homepage"),
-	path('subscriptions/', subscriptions, name="subscriptions"),
-	path('posts/', posts, name="posts"),
-
-	path('tickets/', include("tickets_app.urls")),
-	path('reviews/', include("critiques_app.urls")),
-    path('login', login_view, name="login"),
-    path('logout/', logout_view, name="logout"),
-	path('admin/', admin.site.urls),
+    path("", index, name="index"),
+    path("signup", signup, name="signup"),
+    path("home/", homepage, name="homepage"),
+    path("subscriptions/", subscriptions, name="subscriptions"),
+    path("posts/", posts, name="posts"),
+    path("tickets/", include("tickets_app.urls")),
+    path("reviews/", include("reviews_app.urls")),
+    path("login", login_view, name="login"),
+    path("logout/", logout_view, name="logout"),
+    path("admin/", admin.site.urls),
 ]
 if DEBUG:
     urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
