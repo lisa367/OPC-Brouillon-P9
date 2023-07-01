@@ -1,4 +1,4 @@
-from django.forms.models import ModelForm
+from django.forms import ModelForm, RadioSelect
 from .models import Review
 
 class ReviewForm(ModelForm):
@@ -6,5 +6,5 @@ class ReviewForm(ModelForm):
 	class Meta:
 		model = Review
 		exclude = ["ticket", "time_created", "user",]
-		widget = {"rating":""}
-		label = {}
+		widgets = {"rating": RadioSelect}
+		# labels = {"": ()}
