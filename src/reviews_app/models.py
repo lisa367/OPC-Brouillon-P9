@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models as m
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -9,7 +10,7 @@ from tickets_app.models import Ticket
 class Review(m.Model):
     # ticket = m.CharField(max_length=128)
     ticket = m.ForeignKey(to=Ticket, on_delete=m.CASCADE)
-    rating = m.PositiveSmallIntegerField()
+    rating = m.PositiveSmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     user = m.ForeignKey(to=User, on_delete=m.CASCADE)
     headline = m.CharField(max_length=128)
     body = m.TextField(max_length=8192)
@@ -32,4 +33,4 @@ class UserFollows(m.Model):
 
     class Meta:
         pass
-        # ?? = ??(unique_together='user', 'followed_user', ))
+        unique_together = ('user', 'followed_user', )
