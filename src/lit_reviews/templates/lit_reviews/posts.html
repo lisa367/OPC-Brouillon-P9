@@ -5,6 +5,12 @@ Vos Posts
 {% endblock %}
 
 {% block content%}
+
+{% for post in posts %}
+{% if post.type == 'review' %}
+{% endif %}
+{% endfor %}
+
 <div class="posts">
     {% for review in reviews %}
         <p>{{ review.headline }}</p>
