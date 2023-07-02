@@ -4,7 +4,7 @@
 Vos Posts
 {% endblock %}
 
-{%%}
+{% block content%}
 <div class="posts">
     {% for review in reviews %}
         <p>{{ review.headline }}</p>
@@ -19,8 +19,8 @@ Vos Posts
             <p>{{ review.ticket.title }}</p>
             <img src="{{ review.ticket.image }}" alt="" class="book-img">
         </div>
-        <a href="{% url 'update-review' %}">Modifier</a>
-        <a href="{% url 'delete-review' %}">Supprimer</a>
+        <a href="{% url 'update-review' review.pk %}">Modifier</a>
+        <a href="{% url 'delete-review' review.pk %}">Supprimer</a>
     {% endfor %}
 </div>
 
@@ -34,8 +34,8 @@ Vos Posts
             <p>{{ review.ticket.title }}</p>
             <img src="{{ review.ticket.image }}" alt="" class="book-img">
         </div>
-        <a href="{% url 'update-review' %}">Modifier</a>
-        <a href="{% url 'delete-review' %}">Supprimer</a>
+        <a href="{% url 'update-ticket' ticket.pk %}">Modifier</a>
+        <a href="{% url 'delete-ticket' ticket.pk %}">Supprimer</a>
     {% endfor %}
 </div>
-{%%}
+{% endblock %}
