@@ -1,0 +1,41 @@
+{% extends 'lit_reviews/base.html' %}
+
+{% block h2%}
+Vos Posts
+{% endblock %}
+
+{%%}
+<div class="posts">
+    {% for review in reviews %}
+        <p>{{ review.headline }}</p>
+        <img src="" alt="star rating" class="rating {{ review.rating }}">
+        <p>{{ review.time_created }}</p>
+        <div class="ticket">
+            {% if review.ticket.user == request.user %}
+                <p>Ticket - Vous</p>
+            {% else %}
+                <p>Ticket - {{ review.ticket.user }}</p>
+            {% endif %}
+            <p>{{ review.ticket.title }}</p>
+            <img src="{{ review.ticket.image }}" alt="" class="book-img">
+        </div>
+        <a href="{% url 'update-review' %}">Modifier</a>
+        <a href="{% url 'delete-review' %}">Supprimer</a>
+    {% endfor %}
+</div>
+
+<div class="tickets">
+    {% for ticket in tickets %}
+        <p>{{ review.headline }}</p>
+        <img src="" alt="star rating" class="rating {{ review.rating }}">
+        <p>{{ review.time_created }}</p>
+        <div class="ticket">
+            <p>Ticket - {{ review.ticket.user }}</p>
+            <p>{{ review.ticket.title }}</p>
+            <img src="{{ review.ticket.image }}" alt="" class="book-img">
+        </div>
+        <a href="{% url 'update-review' %}">Modifier</a>
+        <a href="{% url 'delete-review' %}">Supprimer</a>
+    {% endfor %}
+</div>
+{%%}
