@@ -62,11 +62,18 @@ def subscriptions(request):
         form = NewSubscriptionForm(request.POST)
 
 
+def unfollow(request, username):
+    pass
+    return redirect('homepage')
+
+
 @login_required
 def posts(request):
-    template_name = "lit_reviews/user_page.html"
-    model = Review
-    context_object_name = "post"
+    context = {}
+    reviews = Review.objects.all().order_by("-time_created")[0:5]
+    tickets = Ticket.objects.all().order_by("-time_created")[0:5]
+    return render(request, 'lit_reviews/posts.html', context=context)
+
 
 
 @login_required
