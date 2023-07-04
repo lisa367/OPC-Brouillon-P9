@@ -46,11 +46,13 @@ def homepage(request):
     tickets = Ticket.objects.get(user=user)
     user_follows = UserFollows.objects.get(user=user)
     followers = UserFollows.objects.get(followed_user=user)
+    followers_posts = Review.objects.filter()
 
     context["form"] = form
     context["reviews"] = reviews
     context["tickets"] = tickets
     context["user_follows"] = user_follows
+    # context["followers"] = followers
     return render(request, "lit_reviews/homepage.html", context=context)
 
 
@@ -62,14 +64,18 @@ def subscriptions(request):
         form = NewSubscriptionForm(request.POST)
 
 
-def unfollow(request, username):
-    pass
+def unfollow(request, subs_username):
+    user_name = request.user.username
+    user = User.objects.get(username=user_name)
+    followed_user = User.objects.get(username=subs_username)
+    user_subcription = UserFollows.objects.filter(user=user.pk, followed_user=followed_user.pk)
+    user_subcription.delete()
     return redirect('homepage')
 
 
 @login_required
 def posts(request):
-    context = {}
+    context = {"reviews": reviews, "tickets": tickets}
     reviews = Review.objects.all().order_by("-time_created")[0:5]
     tickets = Ticket.objects.all().order_by("-time_created")[0:5]
     return render(request, 'lit_reviews/posts.html', context=context)
