@@ -1,5 +1,6 @@
 # views_bis.py
 
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -17,13 +18,16 @@ def index(request):
         username = request.POST.get("username")
         password = request.POST.get("password")
         user = authenticate(username=username, password=password)
+        print(user)
         # if form.is_valid :
         if user:
+            print("valid form")
             login(request, user)
             return redirect("homepage")
 
     else:
-        form = LoginForm()
+        # form = LoginForm()
+        form = AuthenticationForm()
         context["form"] = form
         return render(request, "lit_reviews/index.html", context=context)
 
@@ -31,9 +35,22 @@ def index(request):
 def signup(request):
     context = {}
     if request.method == "POST":
-        pass
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            print("valid form")
+            form.save()
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(username=username, password=password)
+            print("user")
+            login(request, user)
+            return redirect("homepage")
+        else:
+            print("invalid form")
+            return redirect("index")
     else:
-        form = SignupForm()
+        # form = SignupForm()
+        form = UserCreationForm()
         context["form"] = form
         return render(request, "lit_reviews/signup.html", context=context)
 
