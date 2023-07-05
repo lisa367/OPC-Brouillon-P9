@@ -15,15 +15,20 @@ from tickets_app.models import Ticket
 def index(request):
     context = {}
     if request.method == "POST":
+        print(request.POST)
         username = request.POST.get("username")
         password = request.POST.get("password")
-        user = authenticate(username=username, password=password)
+        # if form.is_valid :
+        user = authenticate(request, username=username, password=password)
         print(user)
         # if form.is_valid :
         if user:
             print("valid form")
             login(request, user)
             return redirect("homepage")
+        else:
+            print("invalid form")
+            return redirect("index")
 
     else:
         # form = LoginForm()
@@ -36,6 +41,7 @@ def signup(request):
     context = {}
     if request.method == "POST":
         form = SignupForm(request.POST)
+        print(request.POST)
         if form.is_valid():
             print("valid form")
             form.save()
@@ -60,10 +66,10 @@ def homepage(request):
     context = {}
     user = User.objects.get(username=request.user.username)
     form = NewSubscriptionForm()
-    reviews = Review.objects.get(user=user)
-    tickets = Ticket.objects.get(user=user)
-    user_follows = UserFollows.objects.get(user=user)
-    followers = UserFollows.objects.get(followed_user=user)
+    reviews = Review.objects.get(user_id=user.pk)
+    tickets = Ticket.objects.get(user_id=user.pk)
+    user_follows = UserFollows.objects.get(user_id=user.pk)
+    followers = UserFollows.objects.get(followed_user_id=user.pk)
     followers_posts = Review.objects.filter()
 
     context["form"] = form
@@ -113,6 +119,7 @@ def posts(request):
     tickets = Ticket.objects.all().order_by("-time_created")[0:5]
     return render(request, "lit_reviews/posts.html", context=context)
 
+
 """ 
 @login_required
 def login_view(request):
@@ -127,6 +134,7 @@ def login_view(request):
         # Return an 'invalid login' error message.
         pass
 """
+
 
 def logout_view(request):
     logout(request)
