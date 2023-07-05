@@ -66,10 +66,10 @@ def homepage(request):
     context = {}
     user = User.objects.get(username=request.user.username)
     form = NewSubscriptionForm()
-    reviews = Review.objects.get(user_id=user.pk)
-    tickets = Ticket.objects.get(user_id=user.pk)
-    user_follows = UserFollows.objects.get(user_id=user.pk)
-    followers = UserFollows.objects.get(followed_user_id=user.pk)
+    reviews = Review.objects.filter(user_id=user.pk)
+    tickets = Ticket.objects.filter(user_id=user.pk)
+    user_follows = UserFollows.objects.filter(user_id=user.pk)
+    followers = UserFollows.objects.filter(followed_user_id=user.pk)
     followers_posts = Review.objects.filter()
 
     context["form"] = form
@@ -114,9 +114,9 @@ def unfollow(request, subs_username):
 
 @login_required
 def posts(request):
-    context = {"reviews": reviews, "tickets": tickets}
     reviews = Review.objects.all().order_by("-time_created")[0:5]
     tickets = Ticket.objects.all().order_by("-time_created")[0:5]
+    context = {"reviews": reviews, "tickets": tickets}
     return render(request, "lit_reviews/posts.html", context=context)
 
 
