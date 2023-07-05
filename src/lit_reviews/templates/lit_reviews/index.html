@@ -20,11 +20,11 @@
 
     <div id="connection">
         <h3>Connectez-vous</h3>
-        <form>
-            {%csrf_token%}
-            <!-- {{ form.as_table }}-->
-            <input type="text" />
-            <input type="password" />
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_table }}
+            <!-- <input type="text" />
+            <input type="password" />-->
             <input type="submit" value="Se connecter" />
         </form>
     </div>
