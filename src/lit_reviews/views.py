@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 # from .models import UserFollows, Review, Ticket
 from .forms import SignupForm, LoginForm, NewSubscriptionForm
@@ -12,7 +13,7 @@ from reviews_app.models import Review, UserFollows
 from tickets_app.models import Ticket
 
 
-def index(request):
+def index(request, *args, **kwargs):
     context = {}
     if request.method == "POST":
         print(request.POST)
@@ -37,23 +38,26 @@ def index(request):
         return render(request, "lit_reviews/index.html", context=context)
 
 
-def signup(request):
+def signup(request, *args, **kwargs):
     context = {}
     if request.method == "POST":
-        form = SignupForm(request.POST)
+        # form = SignupForm(request.POST)
+        form = UserCreationForm(request.POST)
         print(request.POST)
         if form.is_valid():
             print("valid form")
             form.save()
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
-            user = authenticate(username=username, password=password)
-            print("user")
-            login(request, user)
-            return redirect("homepage")
+            return redirect("index", message="Votre profil a bien été enregistré. Veuillez vous connecter.")
+            # username = form.cleaned_data.get("username")
+            # password = form.cleaned_data.get("password")
+            # user = authenticate(username=username, password=password)
+            # print(user)
+            # login(request, user)
+            # return redirect("homepage")
         else:
             print("invalid form")
-            return redirect("index")
+            messages.error(request, kwargs["message"])
+            return redirect("signup", message="Le formulaire soumis n'est pas valide")
     else:
         # form = SignupForm()
         form = UserCreationForm()
@@ -101,7 +105,24 @@ def subscriptions(request):
         return render(request, "lit_reviews/user_follows.html", context=context)
 
 
-def unfollow(request, subs_username):
+def follow_new_user(request):
+    if request.method == "POST":
+        user_username = request.user.username
+        subs_username = request.POST.get("new-subscription")
+        user = User.objects.get(username=user_username)
+        subs_exists = User.objects.filter(username=subs_username).exists()
+
+        if subs_exists:
+            subs = User.objects.get(username=subs_username)
+            UserFollows.objects.create(followed_user_id=subs.pk, user_id=user.pk)
+        return redirect("homepage")
+    else:
+        context = {}
+        context["message"] = "Ce nom d'utilisateur est incorrect"
+        redirect("homepage")
+
+
+def unfollow_user(request, subs_username):
     user_name = request.user.username
     user = User.objects.get(username=user_name)
     followed_user = User.objects.get(username=subs_username)
