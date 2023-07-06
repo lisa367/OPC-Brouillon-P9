@@ -4,30 +4,39 @@
 
 <h2>Suivre d'autres utilisateurs</h2>
 <form action="POST">
-    {% csrf_token %}
-    <input type="submit" value="Envoyer">
+	{% csrf_token %}
+	<!--{{ form.as_p }}-->
+	<input type="text" name="new-subscription" placeholder="Nom d'utilisateurs">
+	<input type="submit" value="Envoyer">
 </form>
 
-{% for user in user_follows %}
+{% if messages %}
+	{% for message in messages %}
+		<div class="message error">{{ message }}</div>
+	{% endfor %}
+{% endif %}
+
+
+{% for user in followed_users %}
 <div class="subscriptions">
 	<h3>Abonnements</h3>
 	<table>
-	<tr>
-		<td>{{ user.username }}</td>
-		<td><a href="{% url 'unfollow' %}">Désabonner</a></td>
-	</tr>
-</table>
+		<tr>
+			<td>{{ user.username }}</td>
+			<td><a href="{% url 'unfollow' %}">Désabonner</a></td>
+		</tr>
+	</table>
 </div>
 {% endfor%}
 
-{% for %}
+{% for follower in followers %}
 <div class="followers">
 	<h3>Abonnés</h3>
 	<table>
-	<tr>
-		<td>{{ follower }}</td>
-	</tr>
-</table>
+		<tr>
+			<td>{{ follower }}</td>
+		</tr>
+	</table>
 </div>
 {% endfor%}
 
