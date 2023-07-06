@@ -56,8 +56,9 @@ def signup(request, *args, **kwargs):
             # return redirect("homepage")
         else:
             print("invalid form")
-            messages.error(request, kwargs["message"])
-            return redirect("signup", message="Le formulaire soumis n'est pas valide")
+            if kwargs.get("message"):
+                messages.error(request, message=kwargs.get("message"))
+            return redirect("signup", message="Le formulaire soumis n'est pas valide. Veuillez recommencer.")
     else:
         # form = SignupForm()
         form = UserCreationForm()
@@ -66,7 +67,7 @@ def signup(request, *args, **kwargs):
 
 
 @login_required
-def homepage(request):
+def homepage(request, *args, **kwargs):
     context = {}
     user = User.objects.get(username=request.user.username)
     form = NewSubscriptionForm()
@@ -81,6 +82,10 @@ def homepage(request):
     context["tickets"] = tickets
     context["user_follows"] = user_follows
     # context["followers"] = followers
+
+    if kwargs.get("message"):
+        messages.info(request, message=kwargs.get("message"))
+
     return render(request, "lit_reviews/homepage.html", context=context)
 
 
@@ -115,11 +120,10 @@ def follow_new_user(request):
         if subs_exists:
             subs = User.objects.get(username=subs_username)
             UserFollows.objects.create(followed_user_id=subs.pk, user_id=user.pk)
-        return redirect("homepage")
-    else:
-        context = {}
-        context["message"] = "Ce nom d'utilisateur est incorrect"
-        redirect("homepage")
+            return redirect("homepage")
+    
+        else:
+            return redirect("homepage", message="Ce nom d'utilisateur est incorrect")
 
 
 def unfollow_user(request, subs_username):
