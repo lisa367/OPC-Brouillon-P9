@@ -13,6 +13,13 @@
         <h1>LITReview</h1>
     </nav>
 
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message error">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+
     <div id="inscription">
         <h3>Inscrivez-vous</h3>
         <form method="POST">
