@@ -24,7 +24,7 @@ from .views import (
     signup,
     homepage,
     subscriptions,
-    unfollow,
+    unfollow_user,
     posts,
     logout_view,
 )
@@ -34,7 +34,7 @@ urlpatterns = [
     path("signup", signup, name="signup"),
     path("home/", homepage, name="homepage"),
     path("subscriptions/", subscriptions, name="subscriptions"),
-    path("unfollow/", unfollow, name="unfollow"),
+    path("unfollow/", unfollow_user, name="unfollow"),
     path("posts/", posts, name="posts"),
     path("tickets/", include("tickets_app.urls")),
     path("reviews/", include("reviews_app.urls")),
