@@ -1,7 +1,17 @@
 {% extends 'lit_reviews/base.html' %}
 
 {% block content %}
+
+<button>
+    <a href="{% url 'create-ticket' %}">Demander une critique</a>
+</button>
+<button>
+    <a href="{% url 'create-review' %}">Créer une critique</a>
+</button>
+
 <div id="reviews">{% lorem 2 p %}</div>
 <div id="tickets">{% lorem 2 p %}</div>
 <div id="followers">{% lorem 2 p %}</div>
+
+
 {% endblock %}
