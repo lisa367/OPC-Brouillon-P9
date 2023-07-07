@@ -47,7 +47,10 @@ def signup(request, *args, **kwargs):
         if form.is_valid():
             print("valid form")
             form.save()
-            return redirect("index", message="Votre profil a bien été enregistré. Veuillez vous connecter.")
+            return redirect(
+                "index",
+                message="Votre profil a bien été enregistré. Veuillez vous connecter.",
+            )
             # username = form.cleaned_data.get("username")
             # password = form.cleaned_data.get("password")
             # user = authenticate(username=username, password=password)
@@ -58,7 +61,10 @@ def signup(request, *args, **kwargs):
             print("invalid form")
             if kwargs.get("message"):
                 messages.error(request, message=kwargs.get("message"))
-            return redirect("signup", message="Le formulaire soumis n'est pas valide. Veuillez recommencer.")
+            return redirect(
+                "signup",
+                message="Le formulaire soumis n'est pas valide. Veuillez recommencer.",
+            )
     else:
         # form = SignupForm()
         form = UserCreationForm()
@@ -89,27 +95,6 @@ def homepage(request, *args, **kwargs):
     return render(request, "lit_reviews/homepage.html", context=context)
 
 
-@login_required
-def subscriptions(request):
-    context = {}
-    if request.method == "POST":
-        # form = NewSubscriptionForm()
-        form = NewSubscriptionForm(request.POST)
-        if form.is_valid():
-            form = NewSubscriptionForm(request.POST)
-    else:
-        form = NewSubscriptionForm()
-        user = User.objects.get(username=request.user.username)
-        followers_ids = UserFollows.objects.filter(followed_user=user.pk)
-        followers = [User.objects.get(pk=user_id).username for user_id in followers_ids]
-        followed_users = UserFollows.objects.filter(user=user.pk)
-
-        context["form"] = form
-        context["followed_users"] = followed_users
-        context["followers"] = followers
-        return render(request, "lit_reviews/user_follows.html", context=context)
-
-
 def follow_new_user(request):
     if request.method == "POST":
         user_username = request.user.username
@@ -121,7 +106,7 @@ def follow_new_user(request):
             subs = User.objects.get(username=subs_username)
             UserFollows.objects.create(followed_user_id=subs.pk, user_id=user.pk)
             return redirect("homepage")
-    
+
         else:
             return redirect("homepage", message="Ce nom d'utilisateur est incorrect")
 
@@ -135,6 +120,28 @@ def unfollow_user(request, subs_username):
     )
     user_subcription.delete()
     return redirect("homepage")
+
+
+@login_required
+def subscriptions(request):
+    context = {}
+    if request.method == "POST":
+        follow_new_user(request)
+        """# form = NewSubscriptionForm()
+        form = NewSubscriptionForm(request.POST)
+        if form.is_valid():
+            form = NewSubscriptionForm(request.POST)"""
+    else:
+        # form = NewSubscriptionForm()
+        user = User.objects.get(username=request.user.username)
+        followers_ids = UserFollows.objects.filter(followed_user=user.pk)
+        followers = [User.objects.get(pk=user_id).username for user_id in followers_ids]
+        followed_users = UserFollows.objects.filter(user=user.pk)
+
+        # context["form"] = form
+        context["followed_users"] = followed_users
+        context["followers"] = followers
+        return render(request, "lit_reviews/user_follows.html", context=context)
 
 
 @login_required
