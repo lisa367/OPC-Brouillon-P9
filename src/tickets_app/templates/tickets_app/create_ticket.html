@@ -6,7 +6,7 @@ Créer un ticket
 
 {% block content %}
 
-<form action="POST">
+<form method="POST">
     {% csrf_token %}
     {{ form.as_table }}
     <input type="submit" value="Envoyer">
