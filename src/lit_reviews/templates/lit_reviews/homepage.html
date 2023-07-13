@@ -17,8 +17,8 @@
     <p>{{ ticket.title }}</p>
     <p>{{ ticket.description }}</p>
     <img src="{{ review.ticket.image }}" alt="" class="book-img">
-    <a href="{% url 'tickets_app:update-ticket' ticket_id=ticket.pk %}">Modifier</a>
-    <a href="{% url 'tickets_app:delete-ticket' ticket_id=ticket.pk %}">Supprimer</a>
+    <a href="{% url 'tickets_app:update-ticket' pk=ticket.pk %}">Modifier</a>
+    <a href="{% url 'tickets_app:delete-ticket' pk=ticket.pk %}">Supprimer</a>
 </div>
 {% endfor %}
 
