@@ -51,6 +51,7 @@ def signup(request, *args, **kwargs):
                 "index",
                 message="Votre profil a bien été enregistré. Veuillez vous connecter.",
             )
+            # return redirect("homepage")
             # username = form.cleaned_data.get("username")
             # password = form.cleaned_data.get("password")
             # user = authenticate(username=username, password=password)
@@ -65,6 +66,7 @@ def signup(request, *args, **kwargs):
                 "signup",
                 message="Le formulaire soumis n'est pas valide. Veuillez recommencer.",
             )
+            # return redirect("signup")
     else:
         # form = SignupForm()
         form = UserCreationForm()
@@ -88,6 +90,7 @@ def homepage(request, *args, **kwargs):
     context["tickets"] = tickets
     context["user_follows"] = user_follows
     # context["followers"] = followers
+    # print(f"Tickets : {context['tickets']}")
 
     if kwargs.get("message"):
         messages.info(request, message=kwargs.get("message"))
@@ -126,11 +129,26 @@ def unfollow_user(request, subs_username):
 def subscriptions(request):
     context = {}
     if request.method == "POST":
-        follow_new_user(request)
+        # follow_new_user(request)
         """# form = NewSubscriptionForm()
         form = NewSubscriptionForm(request.POST)
         if form.is_valid():
             form = NewSubscriptionForm(request.POST)"""
+        if request.method == "POST":
+            user_username = request.user.username
+            subs_username = request.POST.get("new-subscription")
+            user = User.objects.get(username=user_username)
+            subs_exists = User.objects.filter(username=subs_username).exists()
+
+            if subs_exists:
+                subs = User.objects.get(username=subs_username)
+                UserFollows.objects.create(followed_user_id=subs.pk, user_id=user.pk)
+                return redirect("homepage")
+
+            else:
+                return redirect(
+                    "homepage", message="Ce nom d'utilisateur est incorrect"
+                )
     else:
         # form = NewSubscriptionForm()
         user = User.objects.get(username=request.user.username)
