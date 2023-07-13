@@ -25,8 +25,8 @@ Vos Posts
             <p>{{ review.ticket.title }}</p>
             <img src="{{ review.ticket.image }}" alt="" class="book-img">
         </div>
-        <a href="{% url 'update-review' review.pk %}">Modifier</a>
-        <a href="{% url 'delete-review' review.pk %}">Supprimer</a>
+        <a href="{% url 'reviews_app:update-review' review.pk %}">Modifier</a>
+        <a href="{% url 'reviews_app:delete-review' review.pk %}">Supprimer</a>
     {% endfor %}
 </div>
 
@@ -38,10 +38,11 @@ Vos Posts
         <div class="ticket">
             <p>Ticket - {{ review.ticket.user }}</p>
             <p>{{ review.ticket.title }}</p>
+            <p>{{ review.ticket.description }}</p>
             <img src="{{ review.ticket.image }}" alt="" class="book-img">
         </div>
-        <a href="{% url 'update-ticket' ticket.pk %}">Modifier</a>
-        <a href="{% url 'delete-ticket' ticket.pk %}">Supprimer</a>
+        <a href="{% url 'tickets_app:update-ticket' ticket.pk %}">Modifier</a>
+        <a href="{% url 'tickets_app:delete-ticket' ticket.pk %}">Supprimer</a>
     {% endfor %}
 </div>
 {% endblock %}
