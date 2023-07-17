@@ -3,7 +3,7 @@
 {% block content %}
 
 <h2>Suivre d'autres utilisateurs</h2>
-<form action="POST">
+<form action="" method="POST">
 	{% csrf_token %}
 	<!--{{ form.as_p }}-->
 	<input type="text" name="new-subscription" placeholder="Nom d'utilisateurs">
@@ -11,15 +11,14 @@
 </form>
 
 {% if messages %}
-	{% for message in messages %}
-		<div class="message error">{{ message }}</div>
-	{% endfor %}
+{% for message in messages %}
+<div class="message error">{{ message }}</div>
+{% endfor %}
 {% endif %}
 
-
+<h3>Abonnements</h3>
 {% for user in followed_users %}
 <div class="subscriptions">
-	<h3>Abonnements</h3>
 	<table>
 		<tr>
 			<td>{{ user.username }}</td>

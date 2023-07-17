@@ -143,7 +143,7 @@ def subscriptions(request):
             if subs_exists:
                 subs = User.objects.get(username=subs_username)
                 UserFollows.objects.create(followed_user_id=subs.pk, user_id=user.pk)
-                return redirect("homepage")
+                return redirect("subscriptions")
 
             else:
                 return redirect(
@@ -152,13 +152,16 @@ def subscriptions(request):
     else:
         # form = NewSubscriptionForm()
         user = User.objects.get(username=request.user.username)
-        followers_ids = UserFollows.objects.filter(followed_user=user.pk)
-        followers = [User.objects.get(pk=user_id).username for user_id in followers_ids]
-        followed_users = UserFollows.objects.filter(user=user.pk)
+        followers_objects = UserFollows.objects.filter(followed_user=user.pk)
+        followers = [record.user for record in followers_objects]
+
+        followed_users_objects = UserFollows.objects.filter(user=user.pk)
+        followed_users = [record.followed_user for record in followed_users_objects]
 
         # context["form"] = form
         context["followed_users"] = followed_users
         context["followers"] = followers
+        print(context)
         return render(request, "lit_reviews/user_follows.html", context=context)
 
 
