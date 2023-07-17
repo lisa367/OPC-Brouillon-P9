@@ -37,7 +37,7 @@ urlpatterns = [
     path("home/", homepage, name="homepage"),
     path("subscriptions/", subscriptions, name="subscriptions"),
     path("new-subcription/", follow_new_user, name="new-subscription"),
-    path("unfollow/", unfollow_user, name="unfollow"),
+    path("unfollow/<str:subs_username>", unfollow_user, name="unfollow"),
     path("posts/", posts, name="posts"),
     path("tickets/", include("tickets_app.urls")),
     path("reviews/", include("reviews_app.urls")),

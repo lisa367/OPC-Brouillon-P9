@@ -22,7 +22,7 @@
 	<table>
 		<tr>
 			<td class="td-left">{{ user.username }}</td>
-			<td class="td-right"><a href="{% url 'unfollow' %}">Désabonner</a></td>
+			<td class="td-right"><a href="{% url 'unfollow' subs_username=user.username %}">Désabonner</a></td>
 		</tr>
 	</table>
 </div>

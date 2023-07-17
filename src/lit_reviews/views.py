@@ -122,7 +122,7 @@ def unfollow_user(request, subs_username):
         user=user.pk, followed_user=followed_user.pk
     )
     user_subcription.delete()
-    return redirect("homepage")
+    return redirect("subscriptions")
 
 
 @login_required
