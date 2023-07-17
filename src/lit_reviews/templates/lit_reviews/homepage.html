@@ -3,34 +3,41 @@
 {% get_media_prefix as MEDIA_PREFIX %}
 
 {% block content %}
+<div class="page-content">
+    <div class="new-objects">
+        <button>
+            <a href="{% url 'tickets_app:create-ticket' %}">Demander une critique</a>
+        </button>
+        <button>
+            <a href="{% url 'reviews_app:create-review' %}">Créer une critique</a>
+        </button>
+    </div>
 
-<button>
-    <a href="{% url 'tickets_app:create-ticket' %}">Demander une critique</a>
-</button>
-<button>
-    <a href="{% url 'reviews_app:create-review' %}">Créer une critique</a>
-</button>
+    <div class="flux">
+        <div class="reviews"></div>
 
-<div class="reviews"></div>
+        {% for ticket in tickets %}
+        <div class="ticket">
+            <p>Ticket - {{ ticket.user }}</p>
+            <p>{{ ticket.title }}</p>
+            <p>{{ ticket.description }}</p>
+            <p>{{ MEDIA_PREFIX }}{{ ticket.image }}</p>
+            <img src="{{ ticket.image }}" alt="{{ ticket.title }}" class="book-img">
+            <a href="{% url 'tickets_app:update-ticket' pk=ticket.pk %}">Modifier</a>
+            <a href="{% url 'tickets_app:delete-ticket' pk=ticket.pk %}">Supprimer</a>
+        </div>
+        {% endfor %}
 
-{% for ticket in tickets %}
-<div class="ticket">
-    <p>Ticket - {{ ticket.user }}</p>
-    <p>{{ ticket.title }}</p>
-    <p>{{ ticket.description }}</p>
-    <p>{{ MEDIA_PREFIX }}{{ ticket.image }}</p>
-    <img src="{{ MEDIA_PREFIX }}{{ ticket.image }}" alt="{{ ticket.title }}" class="book-img">
-    <a href="{% url 'tickets_app:update-ticket' pk=ticket.pk %}">Modifier</a>
-    <a href="{% url 'tickets_app:delete-ticket' pk=ticket.pk %}">Supprimer</a>
+        <div class="followers"></div>
+
+        <!-- 
+        <div class="tickets">{% lorem 2 p %}</div>
+        <div class="reviews">{% lorem 2 p %}</div>
+        <div class="followers">{% lorem 2 p %}</div>
+        -->
+    </div>
+    
 </div>
-{% endfor %}
 
-<div class="followers"></div>
-
-<!-- 
-<div class="tickets">{% lorem 2 p %}</div>
-<div class="reviews">{% lorem 2 p %}</div>
-<div class="followers">{% lorem 2 p %}</div>
--->
 
 {% endblock %}

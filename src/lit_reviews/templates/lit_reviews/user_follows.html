@@ -21,16 +21,16 @@
 <div class="subscriptions">
 	<table>
 		<tr>
-			<td>{{ user.username }}</td>
-			<td><a href="{% url 'unfollow' %}">Désabonner</a></td>
+			<td class="td-left">{{ user.username }}</td>
+			<td class="td-right"><a href="{% url 'unfollow' %}">Désabonner</a></td>
 		</tr>
 	</table>
 </div>
 {% endfor%}
 
+<h3>Abonnés</h3>
 {% for follower in followers %}
 <div class="followers">
-	<h3>Abonnés</h3>
 	<table>
 		<tr>
 			<td>{{ follower }}</td>
