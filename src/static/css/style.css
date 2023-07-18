@@ -90,3 +90,23 @@ table {
     width: 12%;
     text-align: center;
 }
+
+.new-subs-form {
+    /*border: 1px solid red;*/
+    width: 40%;
+}
+
+.new-subs-form #new-subscription {
+    border: 1px solid grey;
+    width: 83%;
+    height: 3rem;
+    margin-right: 1.5rem;
+}
+
+.new-subs-form #send-button {
+    border: 0.5px solid grey;
+    width: 5.5rem;
+    height: 2rem;
+    border-radius: 8px;
+    background-color: white;
+}

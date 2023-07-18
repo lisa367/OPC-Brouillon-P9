@@ -3,11 +3,11 @@
 {% block content %}
 
 <h2>Suivre d'autres utilisateurs</h2>
-<form action="" method="POST">
+<form action="" method="POST" class="new-subs-form">
 	{% csrf_token %}
 	<!--{{ form.as_p }}-->
-	<input type="text" name="new-subscription" placeholder="Nom d'utilisateurs">
-	<input type="submit" value="Envoyer">
+	<input id="new-subscription" type="text" name="new-subscription" placeholder="Nom d'utilisateurs">
+	<input id="send-button" type="submit" value="Envoyer">
 </form>
 
 {% if messages %}
