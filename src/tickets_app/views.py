@@ -7,20 +7,22 @@ from .forms import TicketForm
 
 
 class CreateTicketView(CreateView):
-	template_name = "tickets_app/create_ticket.html"
-	model = Ticket
-	form_class = TicketForm
-    # fields = "__all__"
-		# success_url = reverse_lazy("homepage")
+    template_name = "tickets_app/create_ticket.html"
+    model = Ticket
+    # form_class = TicketForm
+    fields = "__all__"
+    success_url = reverse_lazy("homepage")
+
 
 class UpdateTicketView(UpdateView):
-	template_name = "tickets_app/update_ticket.html"
-	model = Ticket
-	form_class = TicketForm
-    # fields = "__all__"
-		# success_url = reverse_lazy("homepage")
+    template_name = "tickets_app/update_ticket.html"
+    model = Ticket
+    # form_class = TicketForm
+    fields = "__all__"
+    success_url = reverse_lazy("homepage")
+
 
 class DeleteTicketView(DeleteView):
-	template_name = "tickets_app/update_ticket.html"
-	model = Ticket
-	success_url = reverse_lazy("homepage")
+    template_name = "tickets_app/delete_ticket.html"
+    model = Ticket
+    success_url = reverse_lazy("homepage")
