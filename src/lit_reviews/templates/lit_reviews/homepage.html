@@ -22,7 +22,7 @@
             <p>{{ ticket.title }}</p>
             <p>{{ ticket.description }}</p>
             <p>{{ MEDIA_PREFIX }}{{ ticket.image }}</p>
-            <img src="{{ ticket.image }}" alt="{{ ticket.title }}" class="book-img">
+            <img src="../media/{{ticket.image}}" alt="{{ ticket.title }}" class="book-img">
             <a href="{% url 'tickets_app:update-ticket' pk=ticket.pk %}">Modifier</a>
             <a href="{% url 'tickets_app:delete-ticket' pk=ticket.pk %}">Supprimer</a>
         </div>
