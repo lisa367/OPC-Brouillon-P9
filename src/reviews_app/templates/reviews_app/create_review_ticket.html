@@ -1,0 +1,21 @@
+{% extends 'lit_reviews/base.html' %}
+
+{% block h2 %}
+Créer une critique avec un ticket
+{% endblock %}
+
+{% block content %}
+
+<form action="" method="POST" id="form-ticket">
+    {% csrf_token %}
+    {{ form_ticket.as_p }}
+    <input type="submit" value="Envoyer">
+</form>
+
+<form action="" method="POST" id="form-review">
+    {% csrf_token %}
+    {{ form_review.as_p }}
+    <input type="submit" value="Envoyer">
+</form>
+
+{% endblock %}
