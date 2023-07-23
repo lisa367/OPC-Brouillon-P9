@@ -167,9 +167,19 @@ def subscriptions(request):
 
 @login_required
 def posts(request):
-    reviews = Review.objects.all().order_by("-time_created")[0:5]
-    tickets = Ticket.objects.all().order_by("-time_created")[0:5]
+    reviews = Review.objects.filter(user=request.user).order_by("-time_created")
+    tickets = Ticket.objects.filter(user=request.user).order_by("-time_created")
+
+    subscriptions = UserFollows.objects.filter(user=request.user)
+    subscriptions_ids = [sub.followed_user for sub in subscriptions]
+    print(subscriptions_ids)
+    reviews_all = []
+    # for sub_id in 
+    reviews_subs = Review.objects.filter(user=request.user).order_by("-time_created")
+    tickets_subs = Ticket.objects.filter(user=request.user).order_by("-time_created")
+
     context = {"reviews": reviews, "tickets": tickets}
+    print(context, request.user)
     return render(request, "lit_reviews/posts.html", context=context)
 
 
