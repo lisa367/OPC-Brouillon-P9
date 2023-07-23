@@ -14,7 +14,24 @@
     </div>
 
     <div class="flux">
-        <div class="reviews"></div>
+        <div class="reviews">
+        {% for review in reviews %}
+            <p>{{ review.headline }}</p>
+            <img src="" alt="star rating" class="rating {{ review.rating }}">
+            <p>{{ review.time_created|date:'H:i, j F o' }}</p>
+            <div class="ticket">
+                {% if review.ticket.user == request.user %}
+                <p>Ticket - Vous</p>
+                {% else %}
+                <p>Ticket - {{ review.ticket.user }}</p>
+                {% endif %}
+                <p>{{ review.ticket.title }}</p>
+                <img src="../media/{{ review.ticket.image }}" alt="{{ review.ticket.title }}" class="book-img">
+            </div>
+            <a href="{% url 'reviews_app:update-review' review.pk %}">Modifier</a>
+            <a href="{% url 'reviews_app:delete-review' review.pk %}">Supprimer</a>
+        {% endfor %}
+        </div>
 
         {% for ticket in tickets %}
         <div class="ticket">
