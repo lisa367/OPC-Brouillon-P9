@@ -77,10 +77,7 @@ def signup(request, *args, **kwargs):
 @login_required
 def homepage(request, *args, **kwargs):
     context = {}
-    """user = User.objects.get(username=request.user.username)
-    reviews = Review.objects.filter(user_id=user.pk)
-    tickets = Ticket.objects.filter(user_id=user.pk)
-    user_follows = UserFollows.objects.filter(user_id=user.pk)"""
+
     subscriptions = UserFollows.objects.filter(user=request.user)
     subscriptions_ids = [sub.followed_user for sub in subscriptions]
     users_all = subscriptions_ids + [request.user]
@@ -94,10 +91,7 @@ def homepage(request, *args, **kwargs):
     )
 
     context["reviews"] = reviews_users_all
-    context["tickets"] = tickets_users_all
-    # context["user_follows"] = user_follows
-    # context["followers"] = followers
-    # print(f"Tickets : {context['tickets']}")
+    context["tickets"] = tickets_users_all 
 
     if kwargs.get("message"):
         messages.info(request, message=kwargs.get("message"))
@@ -176,17 +170,8 @@ def subscriptions(request):
 def posts(request):
     reviews = Review.objects.filter(user=request.user).order_by("-time_created")
     tickets = Ticket.objects.filter(user=request.user).order_by("-time_created")
-
-    """ subscriptions = UserFollows.objects.filter(user=request.user)
-    subscriptions_ids = [sub.followed_user for sub in subscriptions]
-    users_all = subscriptions_ids + [request.user]
-    print(users_all)
-
-    reviews_subs = Review.objects.filter(user__in=users_all).order_by("-time_created")
-    tickets_subs = Ticket.objects.filter(user__in=users_all).order_by("-time_created") """
-
     context = {"reviews": reviews, "tickets": tickets}
-    print(context, request.user)
+    # print(context, request.user)
     return render(request, "lit_reviews/posts.html", context=context)
 
 
