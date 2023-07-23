@@ -15,7 +15,7 @@
 
     <div class="flux">
         <div class="reviews">
-        {% for review in reviews %}
+            {% for review in reviews %}
             <p>{{ review.headline }}</p>
             <img src="" alt="star rating" class="rating {{ review.rating }}">
             <p>{{ review.time_created|date:'H:i, j F o' }}</p>
@@ -30,7 +30,7 @@
             </div>
             <a href="{% url 'reviews_app:update-review' review.pk %}">Modifier</a>
             <a href="{% url 'reviews_app:delete-review' review.pk %}">Supprimer</a>
-        {% endfor %}
+            {% endfor %}
         </div>
 
         {% for ticket in tickets %}
@@ -46,7 +46,10 @@
             <img src="../media/{{ticket.image}}" alt="{{ ticket.title }}" class="book-img">
             <a href="{% url 'tickets_app:update-ticket' pk=ticket.pk %}">Modifier</a>
             <a href="{% url 'tickets_app:delete-ticket' pk=ticket.pk %}">Supprimer</a>
-            <button><a href="{% url 'reviews_app:create-review-ticket' %}"></a>Créer une critique</button>
+            <button>
+                <a href="{% url 'reviews_app:create-review-ticket' %}">Créer une critique</a>
+            </button>
+
         </div>
         {% endfor %}
 
