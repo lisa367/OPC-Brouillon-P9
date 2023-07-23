@@ -77,18 +77,25 @@ def signup(request, *args, **kwargs):
 @login_required
 def homepage(request, *args, **kwargs):
     context = {}
-    user = User.objects.get(username=request.user.username)
-    form = NewSubscriptionForm()
+    """user = User.objects.get(username=request.user.username)
     reviews = Review.objects.filter(user_id=user.pk)
     tickets = Ticket.objects.filter(user_id=user.pk)
-    user_follows = UserFollows.objects.filter(user_id=user.pk)
-    followers = UserFollows.objects.filter(followed_user_id=user.pk)
-    followers_posts = Review.objects.filter()
+    user_follows = UserFollows.objects.filter(user_id=user.pk)"""
+    subscriptions = UserFollows.objects.filter(user=request.user)
+    subscriptions_ids = [sub.followed_user for sub in subscriptions]
+    users_all = subscriptions_ids + [request.user]
+    # print(users_all)
 
-    context["form"] = form
-    context["reviews"] = reviews
-    context["tickets"] = tickets
-    context["user_follows"] = user_follows
+    reviews_users_all = Review.objects.filter(user__in=users_all).order_by(
+        "-time_created"
+    )
+    tickets_users_all = Ticket.objects.filter(user__in=users_all).order_by(
+        "-time_created"
+    )
+
+    context["reviews"] = reviews_users_all
+    context["tickets"] = tickets_users_all
+    # context["user_follows"] = user_follows
     # context["followers"] = followers
     # print(f"Tickets : {context['tickets']}")
 
@@ -170,13 +177,13 @@ def posts(request):
     reviews = Review.objects.filter(user=request.user).order_by("-time_created")
     tickets = Ticket.objects.filter(user=request.user).order_by("-time_created")
 
-    subscriptions = UserFollows.objects.filter(user=request.user)
+    """ subscriptions = UserFollows.objects.filter(user=request.user)
     subscriptions_ids = [sub.followed_user for sub in subscriptions]
-    print(subscriptions_ids)
-    reviews_all = []
-    # for sub_id in 
-    reviews_subs = Review.objects.filter(user=request.user).order_by("-time_created")
-    tickets_subs = Ticket.objects.filter(user=request.user).order_by("-time_created")
+    users_all = subscriptions_ids + [request.user]
+    print(users_all)
+
+    reviews_subs = Review.objects.filter(user__in=users_all).order_by("-time_created")
+    tickets_subs = Ticket.objects.filter(user__in=users_all).order_by("-time_created") """
 
     context = {"reviews": reviews, "tickets": tickets}
     print(context, request.user)
