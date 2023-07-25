@@ -6,6 +6,14 @@ Créer une critique
 
 {% block content %}
 
+<div>
+    <p>Ticket - {{ ticket.user }}</p>
+    <p>{{ ticket.title }}</p>
+    <p>{{ ticket.description }}</p>
+    <p>{{ ticket.time_created|date:"H:i, j F o" }}</p>
+    <img src="../media/{{ticket.image}}" alt="{{ ticket.title }}" class="book-img">
+</div>
+
 <form method="POST">
     {% csrf_token %}
     {{ form.as_table }}
