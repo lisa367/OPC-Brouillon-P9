@@ -6,14 +6,9 @@ Créer une critique avec un ticket
 
 {% block content %}
 
-<form action="" method="POST" id="form-ticket">
+<form action="" method="POST" enctype="multi/form-data">
     {% csrf_token %}
     {{ form_ticket.as_p }}
-    <!-- <input type="submit" value="Envoyer"> -->
-</form>
-
-<form action="" method="POST" id="form-review">
-    {% csrf_token %}
     {{ form_review.as_p }}
     <input type="submit" value="Envoyer">
 </form>
