@@ -45,9 +45,13 @@ def create_review_and_ticket(request):
         form_ticket = TicketForm(request.POST)
         form_review = ReviewForm(request.POST)
         print(form_ticket.is_valid(), form_review.is_valid())
-        if all([form_ticket.is_valid(), form_review.is_valid()]):
+        
+        if form_ticket.is_valid():
             form_ticket.save(commit=False)
             print("ticket : ", form_ticket.cleaned_data)
+        if form_review.is_valid():
+            form_review["ticket"] = ''
+            form_ticket.save(commit=False)
             print("review : ", form_review.cleaned_data)
         return redirect("homepage")
     else:
