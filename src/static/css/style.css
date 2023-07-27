@@ -81,7 +81,7 @@ th {
 }
 
 table {
-    min-width: 40%;
+    min-width: 60%;
     border-collapse: collapse;
     table-layout: auto;
 }
@@ -93,7 +93,7 @@ table {
 
 .new-subs-form {
     /*border: 1px solid red;*/
-    width: 40%;
+    width: 60%;
 }
 
 .new-subs-form #new-subscription {
@@ -109,4 +109,15 @@ table {
     height: 2rem;
     border-radius: 8px;
     background-color: white;
+}
+
+
+/*            reviews_app/create_review_ticket.html              */
+
+.form-ticket {
+    border: 1px solid black;
+}
+
+.form-review {
+    border: 1px solid black;
 }
