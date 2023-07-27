@@ -49,8 +49,9 @@ def create_review_and_ticket(request):
         if form_ticket.is_valid():
             form_ticket.save(commit=False)
             print("ticket : ", form_ticket.cleaned_data)
+            last_ticket = Ticket.objects.last()
         if form_review.is_valid():
-            form_review["ticket"] = ''
+            form_review["ticket"] = last_ticket.pk
             form_ticket.save(commit=False)
             print("review : ", form_review.cleaned_data)
         return redirect("homepage")
