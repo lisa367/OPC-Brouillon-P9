@@ -23,13 +23,15 @@ class CreateReviewView(CreateView):
 
     def get(self, request, *args, **kwargs):
         print(kwargs)
+        context = self.get_context_data(**kwargs)
+        print(context)
         super().get(request, *args, **kwargs)
-        context = self.get_context_data()
+        # return self.render_to_response(context)
         return render(request, self.template_name, context=context)
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        #pk = kwargs.get("pk")
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # pk = kwargs.get("pk")
         print("request: ", self.request)
         print("kwargs: ", kwargs)
         # context["ticket"] = Ticket.objects.get(pk=pk)
