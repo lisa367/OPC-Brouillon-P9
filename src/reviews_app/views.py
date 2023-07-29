@@ -12,7 +12,7 @@ from tickets_app.models import Ticket
 User = get_user_model()
 
 
-class CreateReviewView(CreateView, View):
+class CreateReviewView(CreateView):
     template_name = "reviews_app/create_review.html"
     model = Review
     form_class = ReviewForm
@@ -21,12 +21,14 @@ class CreateReviewView(CreateView, View):
     # exclude = ["time_created"]
     # form_class = ReviewForm
 
-    """ def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         print(kwargs)
-        return request """
+        super().get(request, *args, **kwargs)
+        context = self.get_context_data()
+        return render(request, self.template_name, context=context)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
         #pk = kwargs.get("pk")
         print("request: ", self.request)
         print("kwargs: ", kwargs)
