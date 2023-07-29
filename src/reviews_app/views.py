@@ -1,14 +1,18 @@
 from django.shortcuts import render, redirect
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.base import View
+from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 from .models import Review
 from .forms import ReviewForm
 from tickets_app.forms import TicketForm
 from tickets_app.models import Ticket
 
+User = get_user_model()
 
-class CreateReviewView(CreateView):
+
+class CreateReviewView(CreateView, View):
     template_name = "reviews_app/create_review.html"
     model = Review
     form_class = ReviewForm
@@ -17,9 +21,16 @@ class CreateReviewView(CreateView):
     # exclude = ["time_created"]
     # form_class = ReviewForm
 
-    def get_context_data(self, ticket_id, **kwargs):
+    """ def get(self, request, *args, **kwargs):
+        print(kwargs)
+        return request """
+
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["ticket"] = Ticket.objects.get(ticket=ticket_id)
+        #pk = kwargs.get("pk")
+        print("request: ", self.request)
+        print("kwargs: ", kwargs)
+        # context["ticket"] = Ticket.objects.get(pk=pk)
         return context
 
 
@@ -45,16 +56,22 @@ def create_review_and_ticket(request):
         form_ticket = TicketForm(request.POST)
         form_review = ReviewForm(request.POST)
         print(form_ticket.is_valid(), form_review.is_valid())
-        
+
         if form_ticket.is_valid():
-            form_ticket.save(commit=False)
+            user_id = User.objects.get(username=request.user).pk
+            form_ticket.cleaned_data["user"] = user_id
+            form_ticket.save()
             print("ticket : ", form_ticket.cleaned_data)
+            print(form_ticket["user"])
             last_ticket = Ticket.objects.last()
+
         if form_review.is_valid():
-            form_review["ticket"] = last_ticket.pk
-            form_ticket.save(commit=False)
+            form_review.cleaned_data["user"] = last_ticket.user
+            form_review.cleaned_data["ticket"] = last_ticket.pk
+            form_review.save()
             print("review : ", form_review.cleaned_data)
         return redirect("homepage")
+
     else:
         form_ticket = TicketForm()
         form_review = ReviewForm()
