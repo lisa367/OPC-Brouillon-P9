@@ -22,8 +22,9 @@ class CreateReviewView(CreateView):
     # form_class = ReviewForm
 
     def get(self, request, *args, **kwargs):
-        print(kwargs)
-        context = self.get_context_data(**kwargs)
+        print("kwargs : ", kwargs)
+        print("request : ", request)
+        context = self.get_context_data(object=self.get_object(), **kwargs)
         print(context)
         super().get(request, *args, **kwargs)
         # return self.render_to_response(context)
@@ -62,18 +63,21 @@ def create_review_and_ticket(request):
         print(form_ticket.is_valid(), form_review.is_valid())
 
         if form_ticket.is_valid():
-            user_id = User.objects.get(username=request.user).pk
-            form_ticket.cleaned_data["user"] = user_id
-            form_ticket.save()
-            print("ticket : ", form_ticket.cleaned_data)
-            print(form_ticket["user"])
+            # user_id = User.objects.get(username=request.user).pk
+            # form_ticket.cleaned_data["user"] = user_id
+            ticket = form_ticket.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+            # print("ticket : ", form_ticket.cleaned_data)
+            #print(form_ticket["user"])
+            print("ticket : ", ticket)
             last_ticket = Ticket.objects.last()
 
-        if form_review.is_valid():
+        """ if form_review.is_valid():
             form_review.cleaned_data["user"] = last_ticket.user
             form_review.cleaned_data["ticket"] = last_ticket.pk
             form_review.save()
-            print("review : ", form_review.cleaned_data)
+            print("review : ", form_review.cleaned_data) """
         return redirect("homepage")
 
     else:
