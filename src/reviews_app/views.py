@@ -21,14 +21,16 @@ class CreateReviewView(CreateView):
     # exclude = ["time_created"]
     # form_class = ReviewForm
 
-    def get(self, request, *args, **kwargs):
+    """ def get(self, request, *args, **kwargs):
+        super().get(request, *args, **kwargs)
         print("kwargs : ", kwargs)
         print("request : ", request)
         context = self.get_context_data(object=self.get_object(), **kwargs)
+        # context["form"] = self.form_class
         print(context)
-        super().get(request, *args, **kwargs)
-        # return self.render_to_response(context)
-        return render(request, self.template_name, context=context)
+        # super().get(request, *args, **kwargs)
+        return self.render_to_response(context)
+        # return render(request, self.template_name, context=context) """
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -53,6 +55,21 @@ class DeleteReviewView(DeleteView):
     model = Review
     success_url = reverse_lazy("homepage")
     # fields = "__all__
+
+
+def create_review(request, ticket_id):
+    context = {}
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect("homepage")
+    
+    form = ReviewForm()
+    context["form"] = form
+    context["ticket"] = Ticket.objects.filter(ticket=ticket_id)
+    
+    return render(request, "reviews_app/create_review.html", context=context)
 
 
 def create_review_and_ticket(request):
