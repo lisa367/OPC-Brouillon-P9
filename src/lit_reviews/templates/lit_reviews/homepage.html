@@ -9,7 +9,7 @@
             <a href="{% url 'tickets_app:create-ticket' %}">Demander une critique</a>
         </button>
         <button>
-            <a href="{% url 'reviews_app:create-review' %}">Créer une critique</a>
+            <a href="{% url 'reviews_app:create-review-ticket' %}">Créer une critique</a>
         </button>
     </div>
 
@@ -47,7 +47,7 @@
             <a href="{% url 'tickets_app:update-ticket' pk=ticket.pk %}">Modifier</a>
             <a href="{% url 'tickets_app:delete-ticket' pk=ticket.pk %}">Supprimer</a>
             <button>
-                <a href="{% url 'reviews_app:create-review-ticket' %}">Créer une critique</a>
+                <a href="{% url 'reviews_app:create-review' ticket_id=ticket.pk %}">Créer une critique</a>
             </button>
 
         </div>
