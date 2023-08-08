@@ -67,7 +67,8 @@ def create_review(request, ticket_id):
 
     form = ReviewForm()
     context["form"] = form
-    context["ticket"] = Ticket.objects.filter(pk=ticket_id)
+    context["ticket"] = Ticket.objects.filter(pk=ticket_id)[0]
+    # print(context)
 
     return render(request, "reviews_app/create_review.html", context=context)
 
