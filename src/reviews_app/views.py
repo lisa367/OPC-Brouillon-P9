@@ -64,11 +64,11 @@ def create_review(request, ticket_id):
         if form.is_valid():
             form.save()
         return redirect("homepage")
-    
+
     form = ReviewForm()
     context["form"] = form
-    context["ticket"] = Ticket.objects.filter(ticket=ticket_id)
-    
+    context["ticket"] = Ticket.objects.filter(pk=ticket_id)
+
     return render(request, "reviews_app/create_review.html", context=context)
 
 
