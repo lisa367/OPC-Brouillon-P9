@@ -10,14 +10,16 @@ from tickets_app.models import Ticket
 class Review(m.Model):
     # ticket = m.CharField(max_length=128)
     ticket = m.ForeignKey(to=Ticket, on_delete=m.CASCADE)
-    rating = m.PositiveSmallIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
+    rating = m.PositiveSmallIntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(5)]
+    )
     user = m.ForeignKey(to=User, on_delete=m.CASCADE)
     headline = m.CharField(max_length=128)
     body = m.TextField(max_length=8192)
     time_created = m.DateTimeField(auto_now_add=True)
 
-    def get_absolute_url(self):
-        return reverse("homepage")
+    """def get_absolute_url(self):
+        return reverse("homepage")"""
 
 
 # from django.contrib.auth.models import User
@@ -33,4 +35,7 @@ class UserFollows(m.Model):
 
     class Meta:
         pass
-        unique_together = ('user', 'followed_user', )
+        unique_together = (
+            "user",
+            "followed_user",
+        )
