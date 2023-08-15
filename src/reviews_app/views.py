@@ -62,7 +62,11 @@ def create_review(request, ticket_id):
     if request.method == "POST":
         form = ReviewForm(request.POST)
         if form.is_valid():
-            form.save()
+            new_review = form.save(commit=False)
+            new_review.user = request.user
+            new_review.ticket = Ticket.objects.get(pk=ticket_id)
+            new_review.save()
+            print(new_review)
         return redirect("homepage")
 
     form = ReviewForm()
