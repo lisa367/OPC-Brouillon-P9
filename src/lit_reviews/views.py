@@ -82,11 +82,12 @@ def homepage(request, *args, **kwargs):
     subscriptions_ids = [sub.followed_user for sub in subscriptions]
     users_all = subscriptions_ids + [request.user]
     # print(users_all)
+    all_tickets_with_reviews = Review.objects.values_list("ticket", flat=True)
 
     reviews_users_all = Review.objects.filter(user__in=users_all).order_by(
         "-time_created"
     )
-    tickets_users_all = Ticket.objects.filter(user__in=users_all).order_by(
+    tickets_users_all = Ticket.objects.exclude(pk__in=all_tickets_with_reviews).filter(user__in=users_all).order_by(
         "-time_created"
     )
 
