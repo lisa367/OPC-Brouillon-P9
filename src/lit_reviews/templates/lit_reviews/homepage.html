@@ -14,15 +14,15 @@
     </div>
 
     <div class="flux">
+        {% for review in reviews %}
         <div class="review">
-            {% for review in reviews %}
             <p>{{ review.headline }}</p>
             <img src="" alt="star rating" class="rating {{ review.rating }}">
             <p>{{ review.time_created|date:'H:i, j F o' }}</p>
             <p>{{ review.body }}</p>
             <img src="../media/{{ review.ticket.image }}" alt="{{ review.ticket.title }}" class="book-img">
-            <a href="{% url 'reviews_app:update-review' review.pk %}">Modifier</a>
-            <a href="{% url 'reviews_app:delete-review' review.pk %}">Supprimer</a>
+            <!-- <a href="{% url 'reviews_app:update-review' review.pk %}">Modifier</a>
+            <a href="{% url 'reviews_app:delete-review' review.pk %}">Supprimer</a> -->
             <!-- <div class="ticket">
                 {% if review.ticket.user == request.user %}
                 <p>Ticket - Vous</p>
@@ -31,8 +31,8 @@
                 {% endif %}
                 <p>{{ review.ticket.title }}</p>
             </div>  -->
-            {% endfor %}
         </div>
+        {% endfor %}
 
         {% for ticket in tickets %}
         <div class="ticket">
@@ -45,8 +45,8 @@
             <p>{{ ticket.description }}</p>
             <p>{{ ticket.time_created|date:"H:i, j F o" }}</p>
             <img src="../media/{{ticket.image}}" alt="{{ ticket.title }}" class="book-img">
-            <a href="{% url 'tickets_app:update-ticket' pk=ticket.pk %}">Modifier</a>
-            <a href="{% url 'tickets_app:delete-ticket' pk=ticket.pk %}">Supprimer</a>
+            <!-- <a href="{% url 'tickets_app:update-ticket' pk=ticket.pk %}">Modifier</a>
+            <a href="{% url 'tickets_app:delete-ticket' pk=ticket.pk %}">Supprimer</a> -->
             <button>
                 <a href="{% url 'reviews_app:create-review' ticket_id=ticket.pk %}">Créer une critique</a>
             </button>

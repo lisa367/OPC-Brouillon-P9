@@ -13,9 +13,9 @@ Vos Posts
 
 <div class="posts">
     {% for review in reviews %}
+    <p>Vous avez publié une critique <span>{{ review.time_created|date:'H:i, j F o' }}</span></p>
     <p>{{ review.headline }}</p>
     <img src="" alt="star rating" class="rating {{ review.rating }}">
-    <p>{{ review.time_created|date:'H:i, j F o' }}</p>
     <div class="ticket">
         {% if review.ticket.user == request.user %}
         <p>Ticket - Vous</p>
@@ -32,6 +32,7 @@ Vos Posts
 
 <div class="tickets">
     {% for ticket in tickets %}
+    <p>Vous avez publié un ticket</p>
     <p>{{ ticket.headline }}</p>
     <img src="" alt="star rating" class="rating {{ review.rating }}">
     <p>{{ ticket.time_created|date:'H:i, j F o' }}</p>
